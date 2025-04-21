@@ -1,10 +1,33 @@
 # Calculator
 
-See [ChatGPT chat](https://chatgpt.com/share/6806bc00-8d54-8001-a25d-4c43b9b979d3) for motivation.
+A simple calculator package.
+
+## Setup with uv
 
 ```bash
-pyenv local 3.12
-python -m venv venv
-python --version
-. venv/bin/activate
+# Install uv if you don't have it already
+pip install uv
+
+# Create and activate a virtual environment
+uv venv
+
+# Install the package in development mode
+uv pip install -e .
+
+# Install development dependencies
+uv pip install -e ".[dev]"
+
+# Run tests
+uv pip run pytest
+```
+
+## Development
+
+- Source code is in `src/calculator`
+- Tests are in the `tests` directory
+
+```bash
+pip install uv
+uv python install 3.9
+
 ```
