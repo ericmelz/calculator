@@ -2,7 +2,7 @@
 
 A simple calculator package.
 
-## Setup with uv
+## Development Setup with uv
 
 ```bash
 # Install uv if you don't have it already
@@ -19,15 +19,4 @@ uv pip install -e ".[dev]"
 
 # Run tests
 uv run pytest
-```
-
-## Development
-
-- Source code is in `src/calculator`
-- Tests are in the `tests` directory
-
-```bash
-pip install uv
-uv python install 3.9
-
 ```
