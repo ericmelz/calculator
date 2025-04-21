@@ -29,10 +29,7 @@ jobs:
       run: |
         uv venv
         uv pip install -e ".[dev]"
-        echo "before uv run pytest"
-        uv run pytest
-        echo "after pytest"
 
     - name: Run tests
       run: |
-        pytest
+        uv run pytest
