@@ -18,7 +18,7 @@ uv pip install -e .
 uv pip install -e ".[dev]"
 
 # Run tests
-uv pip run pytest
+uv run pytest
 ```
 
 ## Development
