@@ -29,6 +29,11 @@ jobs:
       run: |
         uv venv
         uv pip install .
+        echo "before uv run pytest"
+        uv run pytest
+        echo "before pytest"
+        pytest
+        echo "after pytest"
 
     - name: Run tests
       run: |
