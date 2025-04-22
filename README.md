@@ -11,9 +11,6 @@ pip install uv
 # Create and activate a virtual environment
 uv venv
 
-# Install the package in development mode
-uv pip install -e .
-
 # Install development dependencies
 uv pip install -e ".[dev]"
 
