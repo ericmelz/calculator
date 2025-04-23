@@ -1,28 +1,26 @@
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "calculator"
 version = "0.1.0"
-description = "A simple calculator package"
+description = "A simple calculator app"
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [
-    {name = "Calculator Author"}
+    {name = "Eric Melz"}
 ]
 dependencies = [
     "streamlit>=1.24.0"
-]    
+]
 
-[project.optional-dependencies]
-dev = ["pytest>=6.0"]
-
-[tool.setuptools]
-package-dir = {"" = "src"}
-packages = ["calculator"]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=6.0",
+]
