@@ -1,6 +1,14 @@
 # Calculator
 
-A simple calculator package.
+A simple calculator for project demo purposes.
+
+## Get the project
+`cd` into a suitable dir (such as `~/Data/code`) and:
+```bash
+rm -rf calculator
+git clone git@github.com:ericmelz/calculator.git
+cd calculator
+```
 
 ## Local laptop native setup
 ### Install uv if it's not already on your system
