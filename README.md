@@ -62,7 +62,7 @@ k3d image import calculator:latest -c calculator-cluster
 kubectl apply -f k8s/
 ```
 
-# Verify deployment
+### Verify deployment
 ```bash
 kubectl get deployments
 kubectl get pods
