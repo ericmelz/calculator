@@ -3,8 +3,9 @@
 A simple calculator for project demo purposes.
 
 ## Get the project
-`cd` into a suitable dir (such as `~/Data/code`) and:
+Find a suitable dir (such as `~/Data/code`) and:
 ```bash
+cd ~/Data/code
 rm -rf calculator
 git clone git@github.com:ericmelz/calculator.git
 cd calculator
