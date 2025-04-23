@@ -37,7 +37,7 @@ In Pycharm Open a new project and navigate to the
 directory where you cloned the calculator repo.
 
 Configure the Project Interpreter to use UV:
-![Project Interpreter](doc-images/project interpreter.png)
+![Project Interpreter](doc-images/project%20interpreter.png)
 
 
 ## Local Docker setup
