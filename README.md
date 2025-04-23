@@ -93,3 +93,14 @@ visit http://localhost:8899/calculator/
 ```bash
 k3d cluster delete calculator-cluster
 ```
+
+## Configuration 
+The kubernetes environment assumes that configuration exists as 
+gpg-encrypted .env files.  Here are some sample commands for encrypting
+and decrypting files.  Do not store unencrypted credentials on your
+file system.
+```bash
+export PASSPHRASE=$(openssl rand -base64 32)
+cat conf/.env.prod|gpg --symmetric --cipher-alg AES256 --batch --passphrase "$PASSPHRASE" -o conf/.env.prod.encrypted
+gpg --batch --yes --passphrase "$PASSPHRASE" -o conf/.env.prod.decrypted -d conf/.env.prod.encrypted                          
+```
