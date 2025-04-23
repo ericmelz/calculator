@@ -26,11 +26,8 @@ uv run pytest
 
 ### Run the app
 ```bash
-streamlit run src/app.py
+uv run streamlit run src/app.py
 ```
-
-### Hit the app
-visit <http://localhost:8501> 
 
 ## Pycharm setup
 In Pycharm Open a new project and navigate to the
