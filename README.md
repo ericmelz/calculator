@@ -32,6 +32,14 @@ streamlit run src/app.py
 ### Hit the app
 visit <http://localhost:8501> 
 
+## Pycharm setup
+In Pycharm Open a new project and navigate to the
+directory where you cloned the calculator repo.
+
+Configure the Project Interpreter to use UV:
+![Project Interpreter](doc-images/project interpreter.png)
+
+
 ## Local Docker setup
 ### Build and run the docker image
 ```bash
