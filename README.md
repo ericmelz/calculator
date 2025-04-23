@@ -37,7 +37,7 @@ uv run pytest
 ```bash
 uv run streamlit run src/app.py
 ^c
-ENV_FILE_PATH=conf/.env.prod uv run streamlit run src/app.py
+CALCULATOR_ENV_FILE_PATH=conf/.env.prod uv run streamlit run src/app.py
 ^c
 ```
 
