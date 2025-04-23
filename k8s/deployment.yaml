@@ -14,10 +14,49 @@ spec:
       labels:
         app: calculator
     spec:
+      volumes:
+        - name: encrypted-env
+          hostPath:
+            path: /mnt/nas/secrets
+            type: Directory
+        - name: decrypted-env
+          emptyDir: {}
+      initContainers:
+        - name: decrypt-env
+          image: alpine:3.16
+          command:
+            - sh
+            - -c
+            - |
+              # install GPG, decrypted into the emptyDir \
+              apk add --no-cache gnupg && \
+              gpg --batch --yes \
+              --passphrase "$GPG_PASSPHRASE" \
+              -o /mnt/decrypted/.env \
+              -d /mnt/secrets/.env.dev.gpg
+          env:
+            - name: GPG_PASSPHRASE
+              valueFrom:
+                secretKeyRef:
+                  name: gpg-passphrase
+                  key: GPG_PASSPHRASE
+          volumeMounts:
+            - name: encrypted-env
+              mountPath: /mnt/secrets
+              readOnly: true
+            - name: decrypted-env
+              mountPath: /mnt/decrypted
       containers:
       - name: calculator
         image: calculator:latest
         imagePullPolicy: IfNotPresent
+        env:
+          - name: CALCULATOR_ENV_FILE_PATH
+            value: /mnt/decrypted/.env
+        volumeMounts:
+          - name: decrypted-env
+            mountPath: /mnt/decrypted
+            readOnly: true
         args:
           - "--server.baseUrlPath"
           - "/calculator"

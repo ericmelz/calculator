@@ -65,7 +65,7 @@ visit <http://localhost:8501>
 
 ### Create a new k3d cluster
 ```bash
-k3d cluster create calculator-cluster -p "8899:80@loadbalancer"
+k3d cluster create calculator-cluster -p "8899:80@loadbalancer" --volume "$(pwd)/conf:/mnt/nas/secrets@server:0"
 ```
 
 ### Build the Docker image and import it into the cluster
