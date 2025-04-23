@@ -23,7 +23,6 @@ src/calculator.egg-info/
 *.egg
 
 # Environments
-conf/.env.dev
 .venv
 env/
 venv/
