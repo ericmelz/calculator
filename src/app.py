@@ -1,9 +1,6 @@
 import streamlit as st
 
-
-def add_numbers(a, b):
-    """Add two numbers and return the result."""
-    return a + b
+from calculator.math_ops import add
 
 
 def main():
@@ -16,7 +13,7 @@ def main():
     num2 = st.number_input("Enter the second number:", value=0.0)
 
     # Calculate the result
-    result = add_numbers(num1, num2)
+    result = add(num1, num2)
 
     # Display the result
     st.write(f"### Result: {result}")
