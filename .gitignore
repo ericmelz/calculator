@@ -23,7 +23,7 @@ src/calculator.egg-info/
 *.egg
 
 # Environments
-.env
+conf/.env.dev
 .venv
 env/
 venv/

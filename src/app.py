@@ -1,12 +1,17 @@
 import streamlit as st
 
 from calculator.math_ops import add
+from settings import Settings
 
 
 def main():
     st.title("Number Addition App")
 
     st.write("This simple app adds two numbers together.")
+
+    settings = Settings(_env_file="conf/.env.dev", _env_file_encoding="utf-8")
+    st.markdown(f"### Settings:\n* {settings.db_host=}\n* {settings.openai_api_key=}\n"
+                f"* {settings.openai_api_key.get_secret_value()=}")
 
     # Get user inputs
     num1 = st.number_input("Enter the first number:", value=0.0)

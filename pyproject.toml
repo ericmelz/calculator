@@ -8,7 +8,9 @@ authors = [
     {name = "Eric Melz"}
 ]
 dependencies = [
-    "streamlit>=1.24.0"
+    "pydantic>=2.10.6",
+    "pydantic-settings>=2.8.1",
+    "streamlit>=1.24.0",
 ]
 
 [build-system]
