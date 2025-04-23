@@ -36,6 +36,9 @@ uv run pytest
 ### Run the app
 ```bash
 uv run streamlit run src/app.py
+^c
+ENV_FILE_PATH=conf/.env.prod uv run streamlit run src/app.py
+^c
 ```
 
 ## Pycharm setup
