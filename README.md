@@ -2,18 +2,77 @@
 
 A simple calculator package.
 
-## Development Setup with uv
+## Local laptop native setup
+### Install uv if it's not already on your system
 
 ```bash
-# Install uv if you don't have it already
 pip install uv
+```
 
-# Create and activate a virtual environment
+### Create and activate a virtual environment
+```bash
 uv venv
+```
 
-# Install development dependencies
+### Install dependencies, including development dependencies
+```bash
 uv pip install -e ".[dev]"
+```
 
-# Run tests
+### Run tests
+```bash
 uv run pytest
+```
+
+### Run the app
+```bash
+streamlit run src/app.py
+```
+
+### Hit the app
+visit <http://localhost:8501> 
+
+## Local Docker setup
+### Build and run the docker image
+```bash
+./run.sh
+```
+
+### Hit the app
+visit <http://localhost:8501>
+
+## Local k3d setup
+### Prerequisites
+- Docker installed
+- k3d installed (`curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash`)
+
+### Create a new k3d cluster
+```bash
+k3d cluster create calculator-cluster -p "8899:80@loadbalancer"
+```
+
+### Build the Docker image and import it into the cluster
+```bash
+docker build -t calculator:latest .
+k3d image import calculator:latest -c calculator-cluster
+```
+
+### Deploy to k3d
+```bash
+kubectl apply -f k8s/
+```
+
+# Verify deployment
+```bash
+kubectl get deployments
+kubectl get pods
+kubectl get ingress
+```
+
+### Access the service
+visit http://localhost:8899/calculator/
+
+### xx
+```bash
+ls -l
 ```
