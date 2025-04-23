@@ -73,6 +73,11 @@ k3d cluster create calculator-cluster -p "8899:80@loadbalancer"
 docker build -t calculator:latest .
 k3d image import calculator:latest -c calculator-cluster
 ```
+### Install the configuration encryption key
+```bash
+export GPG_PASSPHRASE=s3cr3t!
+kubectl create secret generic gpg-passphrase --from-literal=GPG_PASSPHRASE=$GPG_PASSPHRASE
+```
 
 ### Deploy to k3d
 ```bash
@@ -100,7 +105,7 @@ gpg-encrypted .env files.  Here are some sample commands for encrypting
 and decrypting files.  Do not store unencrypted credentials on your
 file system.
 ```bash
-export PASSPHRASE=$(openssl rand -base64 32)
-cat conf/.env.prod|gpg --symmetric --cipher-alg AES256 --batch --passphrase "$PASSPHRASE" -o conf/.env.prod.encrypted
-gpg --batch --yes --passphrase "$PASSPHRASE" -o conf/.env.prod.decrypted -d conf/.env.prod.encrypted                          
+export GPG_PASSPHRASE=$(openssl rand -base64 32)
+cat conf/.env.prod|gpg --symmetric --cipher-alg AES256 --batch --passphrase "$GPG_PASSPHRASE" -o conf/.env.prod.encrypted
+gpg --batch --yes --passphrase "$GPG_PASSPHRASE" -o conf/.env.prod.decrypted -d conf/.env.prod.encrypted                          
 ```
