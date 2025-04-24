@@ -69,7 +69,7 @@ VAR_DIR=$(pwd)/var
 ```
 ### Create a new k3d cluster
 ```bash
-k3d cluster create calculator-cluster --api-port 6443 -p "8899:80@loadbalancer" --volume "$VAR_DIR:/mnt/var@server:0"
+k3d cluster create calculator --api-port 6443 -p "8899:80@loadbalancer" --volume "$VAR_DIR:/mnt/var@server:0"
 ```
 
 ### Create a persistent volume and persistent volume claim
@@ -95,7 +95,7 @@ kubectl delete pod tester-hostpath
 ### Build the Docker image and import it into the cluster
 ```bash
 docker build -t calculator:latest .
-k3d image import calculator:latest -c calculator-cluster
+k3d image import calculator:latest -c calculator
 ```
 ### Install the configuration encryption key
 ```bash
@@ -120,7 +120,7 @@ visit http://localhost:8899/calculator/
 
 ### Destroy cluster
 ```bash
-k3d cluster delete calculator-cluster
+k3d cluster delete calculator
 ```
 
 ## Configuration 
