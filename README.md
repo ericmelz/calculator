@@ -37,7 +37,7 @@ uv run pytest
 ```bash
 uv run streamlit run src/app.py
 ^c
-CALCULATOR_ENV_FILE_PATH=conf/.env.prod uv run streamlit run src/app.py
+CALCULATOR_CONF_FILE=var/conf/calculator/.env.prod uv run streamlit run src/app.py
 ^c
 ```
 
@@ -63,9 +63,33 @@ visit <http://localhost:8501>
 - Docker installed
 - k3d installed (`curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash`)
 
+### Record the configuration directory
+```bash
+VAR_DIR=$(pwd)/var
+```
 ### Create a new k3d cluster
 ```bash
-k3d cluster create calculator-cluster -p "8899:80@loadbalancer" --volume "$(pwd)/conf:/mnt/nas/secrets@server:0"
+k3d cluster create calculator-cluster --api-port 6443 -p "8899:80@loadbalancer" --volume "$VAR_DIR:/mnt/var@server:0"
+```
+
+### Create a persistent volume and persistent volume claim
+```bash
+kubectl apply -f k8s-pv
+kubectl get pv,pvc
+```
+
+Ensure the `STATUS` for the pv and pvc is `Bound`.
+
+### Test writing from k3d:
+```bash
+kubectl apply -f k8s-test
+cat $VAR_DIR/conf/calculator/hello.txt
+kubectl exec tester-hostpath -it -- /bin/sh 
+cd /data
+ls -la
+exit
+rm $VAR_DIR/conf/calculator/hello.txt
+kubectl delete pod tester-hostpath
 ```
 
 ### Build the Docker image and import it into the cluster

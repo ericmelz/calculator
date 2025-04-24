@@ -11,7 +11,7 @@ def main():
 
     st.write("This simple app adds two numbers together.")
 
-    env_file = os.getenv("CALCULATOR_ENV_FILE_PATH", "conf/.env.dev")
+    env_file = os.getenv("CALCULATOR_CONF_FILE", "conf/.env.dev")
     settings = Settings(_env_file=env_file, _env_file_encoding="utf-8")
     st.markdown(f"### Settings:\n* {settings.db_host=}\n* {settings.openai_api_key=}\n"
                 f"* {settings.openai_api_key.get_secret_value()=}")

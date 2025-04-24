@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tester-hostpath
+spec:
+  containers:
+    - name: busy
+      image: busybox
+      command: [ "sh", "-c", "echo hello > /data/hello.txt; sleep 3600" ]
+      volumeMounts:
+        - name: data
+          mountPath: /data
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: hostpath-pvc

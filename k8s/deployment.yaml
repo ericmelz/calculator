@@ -17,7 +17,7 @@ spec:
       volumes:
         - name: encrypted-env
           hostPath:
-            path: /mnt/nas/secrets
+            path: /mnt/var/conf/calculator
             type: Directory
         - name: decrypted-env
           emptyDir: {}
