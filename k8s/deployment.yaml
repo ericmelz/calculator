@@ -51,7 +51,7 @@ spec:
         image: calculator:latest
         imagePullPolicy: IfNotPresent
         env:
-          - name: CALCULATOR_ENV_FILE_PATH
+          - name: CALCULATOR_CONF_FILE
             value: /mnt/decrypted/.env
         volumeMounts:
           - name: decrypted-env
