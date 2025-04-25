@@ -67,3 +67,72 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo -e "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H emelz.com >> ~/.ssh/known_hosts
+
+      - name: Prepare K8s manifests for deployment
+        run: |
+          # Create a temp directory for the manifests
+          mkdir -p ./k8s-deploy
+          
+          # Copy the K8s manifests to the temp directory (unmodified originals)
+          cp ./k8s/* ./k8s-deploy/
+          
+          # Get the Git SHA for the image tag
+          GIT_SHA=$(git rev-parse --short HEAD)
+          
+          # Update the deployment.yaml with the specific image tag (modify the copy)
+          sed -i "s|calculator:latest|ghcr.io/${{ github.repository_owner }}/calculator:sha-${GIT_SHA}|g" ./k8s-deploy/deployment.yaml
+          
+          # Update imagePullPolicy since we're now using a registry
+          sed -i "s|imagePullPolicy: Never|imagePullPolicy: Always|g" ./k8s-deploy/deployment.yaml
+          
+          # Print the changes for verification (optional)
+          echo "Updated deployment to use image tag: sha-${GIT_SHA}"
+          grep -n "image:" ./k8s-deploy/deployment.yaml
+
+      - name: Copy K8s manifests to server
+        run: |
+          # Create a directory on the server
+          ssh -i ~/.ssh/id_ed25519 deployer@emelz.com "mkdir -p ~/k8s-manifests/calculator"
+          
+          # Copy the manifests to the server
+          scp -i ~/.ssh/id_ed25519 -r ./k8s-deploy/* deployer@emelz.com:~/k8s-manifests/calculator/
+
+      - name: Deploy to Kubernetes
+        run: |
+          ssh -i ~/.ssh/id_ed25519 deployer@emelz.com '
+            export KUBECONFIG=/home/deployer/.kube/config &&
+            kubectl apply -f ~/k8s-manifests/calculator/ &&
+            kubectl rollout status deployment/calculator --timeout=180s &&
+            if [ $? -eq 0 ]; then
+              echo "Deployment successful!"
+            else
+              echo "Deployment failed!"
+              exit 1
+            fi
+          '            
+
+      - name: Verify Deployment
+        run: |
+          ssh -i ~/.ssh/id_ed25519 deployer@emelz.com '
+            export KUBECONFIG=/home/deployer/.kube/config &&
+            kubectl get pods -l app=calculator &&
+            kubectl get svc calculator &&
+            kubectl get ingress calculator
+          '
