@@ -22,23 +22,28 @@ spec:
           emptyDir: {}
       initContainers:
         - name: decrypt-env
-          image: alpine:3.16
+          image: ubuntu:22.04
           command:
             - sh
             - -c
             - |
-              # install GPG, decrypted into the emptyDir \
-              apk add --no-cache gnupg && \
-              gpg --batch --yes \
-              --passphrase "$GPG_PASSPHRASE" \
-              -o /mnt/decrypted/.env \
-              -d /mnt/secrets/.env.dev.gpg
+              set -e
+              apt-get update \
+              && apt-get install -y --no-install-recommends gnupg \
+              && rm -rf /var/lib/apt/lists/* \
+              && gpg --batch --yes \
+                   --passphrase="$GPG_PASSPHRASE" \
+                   -o /mnt/decrypted/.env \
+                   -d /mnt/secrets/.env.${DEPLOYMENT_ENV}.gpg
+          args:
           env:
             - name: GPG_PASSPHRASE
               valueFrom:
                 secretKeyRef:
                   name: gpg-passphrase
                   key: GPG_PASSPHRASE
+            - name: DEPLOYMENT_ENV
+              value: dev
           volumeMounts:
             - name: encrypted-conf
               mountPath: /mnt/secrets
