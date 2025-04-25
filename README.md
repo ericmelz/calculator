@@ -83,11 +83,20 @@ Ensure the `STATUS` for the pv and pvc is `Bound`.
 ### Test writing from k3d:
 ```bash
 kubectl apply -f k8s-test
+```
+```bash
+ls -l $VAR_DIR/conf/calculator/hello.txt
 cat $VAR_DIR/conf/calculator/hello.txt
+```
+```bash
 kubectl exec tester-hostpath -it -- /bin/sh 
+```
+```bash
 cd /conf
 ls -la
 exit
+```
+```bash
 rm $VAR_DIR/conf/calculator/hello.txt
 kubectl delete pod tester-hostpath
 ```
