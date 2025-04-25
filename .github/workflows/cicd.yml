@@ -114,6 +114,14 @@ jobs:
           # Copy the manifests to the server
           scp -i ~/.ssh/id_ed25519 -r ./k8s-deploy/* deployer@emelz.com:~/k8s-manifests/calculator/
 
+      - name: Create GPG_PASSPHRASE secret
+        run: |
+          ssh -i ~/.ssh/id_ed25519 deployer@emelz.com '
+            export KUBECONFIG=/home/deployer/.kube/config &&
+            export GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" &&
+            kubectl create secret generic gpg-passphrase --from-literal=GPG_PASSPHRASE=$GPG_PASSPHRASE          
+          '
+
       - name: Deploy to Kubernetes
         run: |
           ssh -i ~/.ssh/id_ed25519 deployer@emelz.com '
