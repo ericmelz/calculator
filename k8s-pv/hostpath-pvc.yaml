@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: hostpath-calculator-conf-pvc
+  name: pvc-calculator-conf
 spec:
   storageClassName: manual-hostpath
   accessModes:

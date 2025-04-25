@@ -17,7 +17,7 @@ spec:
       volumes:
         - name: encrypted-conf
           persistentVolumeClaim:
-            claimName: hostpath-calculator-conf-pvc
+            claimName: pvc-calculator-conf
         - name: decrypted-conf
           emptyDir: {}
       initContainers:

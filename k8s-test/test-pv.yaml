@@ -13,4 +13,4 @@ spec:
   volumes:
     - name: conf
       persistentVolumeClaim:
-        claimName: hostpath-calculator-conf-pvc
+        claimName: pvc-calculator-conf
