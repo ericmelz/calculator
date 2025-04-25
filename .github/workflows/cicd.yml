@@ -119,6 +119,9 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 deployer@emelz.com '
             export KUBECONFIG=/home/deployer/.kube/config &&
             export GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" &&
+            sudo apt update &&
+            sudo apt install -y gnupg &&
+            gpg --version
             kubectl create secret generic gpg-passphrase --from-literal=GPG_PASSPHRASE=$GPG_PASSPHRASE          
           '
 
