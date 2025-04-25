@@ -15,11 +15,10 @@ spec:
         app: calculator
     spec:
       volumes:
-        - name: encrypted-env
-          hostPath:
-            path: /mnt/var/conf/calculator
-            type: Directory
-        - name: decrypted-env
+        - name: encrypted-conf
+          persistentVolumeClaim:
+            claimName: hostpath-calculator-conf-pvc
+        - name: decrypted-conf
           emptyDir: {}
       initContainers:
         - name: decrypt-env
@@ -41,10 +40,10 @@ spec:
                   name: gpg-passphrase
                   key: GPG_PASSPHRASE
           volumeMounts:
-            - name: encrypted-env
+            - name: encrypted-conf
               mountPath: /mnt/secrets
               readOnly: true
-            - name: decrypted-env
+            - name: decrypted-conf
               mountPath: /mnt/decrypted
       containers:
       - name: calculator
@@ -54,7 +53,7 @@ spec:
           - name: CALCULATOR_CONF_FILE
             value: /mnt/decrypted/.env
         volumeMounts:
-          - name: decrypted-env
+          - name: decrypted-conf
             mountPath: /mnt/decrypted
             readOnly: true
         args:

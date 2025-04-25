@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: hostpath-pvc
+  name: hostpath-calculator-conf-pvc
 spec:
   storageClassName: manual-hostpath
   accessModes:
@@ -9,3 +9,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  selector:
+    matchLabels:
+      app: calculator
+      datatype: conf

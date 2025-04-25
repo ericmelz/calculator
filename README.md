@@ -85,7 +85,7 @@ Ensure the `STATUS` for the pv and pvc is `Bound`.
 kubectl apply -f k8s-test
 cat $VAR_DIR/conf/calculator/hello.txt
 kubectl exec tester-hostpath -it -- /bin/sh 
-cd /data
+cd /conf
 ls -la
 exit
 rm $VAR_DIR/conf/calculator/hello.txt

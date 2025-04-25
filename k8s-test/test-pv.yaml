@@ -6,11 +6,11 @@ spec:
   containers:
     - name: busy
       image: busybox
-      command: [ "sh", "-c", "echo hello > /data/hello.txt; sleep 3600" ]
+      command: [ "sh", "-c", "echo hello > /conf/hello.txt; sleep 3600" ]
       volumeMounts:
-        - name: data
-          mountPath: /data
+        - name: conf
+          mountPath: /conf
   volumes:
-    - name: data
+    - name: conf
       persistentVolumeClaim:
-        claimName: hostpath-pvc
+        claimName: hostpath-calculator-conf-pvc
