@@ -119,7 +119,9 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 deployer@emelz.com '
             export KUBECONFIG=/home/deployer/.kube/config &&
             export GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}" &&
-            kubectl create secret generic gpg-passphrase --from-literal=GPG_PASSPHRASE=$GPG_PASSPHRASE          
+            kubectl create secret generic gpg-passphrase --from-literal=GPG_PASSPHRASE=xxyy \
+                    --dry-run=client -o yaml | \
+                    kubectl apply -f -          
           '
 
       - name: Deploy to Kubernetes
