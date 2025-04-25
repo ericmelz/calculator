@@ -22,20 +22,16 @@ spec:
           emptyDir: {}
       initContainers:
         - name: decrypt-env
-          image: ubuntu:22.04
+          image: safesecurity/gpg:latest
           command:
             - sh
             - -c
             - |
               set -e
-              apt-get update \
-              && apt-get install -y --no-install-recommends gnupg ca-certificates apt-transport-https \
-              && update-ca-certificates \              
-              && rm -rf /var/lib/apt/lists/* \
-              && gpg --batch --yes \
-                   --passphrase="$GPG_PASSPHRASE" \
-                   -o /mnt/decrypted/.env \
-                   -d /mnt/secrets/.env.${DEPLOYMENT_ENV}.gpg
+              gpg --batch --yes \
+                --passphrase="$GPG_PASSPHRASE" \
+                -o /mnt/decrypted/.env \
+                -d /mnt/secrets/.env.${DEPLOYMENT_ENV}.gpg
           args:
           env:
             - name: GPG_PASSPHRASE
