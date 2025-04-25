@@ -29,7 +29,8 @@ spec:
             - |
               set -e
               apt-get update \
-              && apt-get install -y --no-install-recommends gnupg \
+              && apt-get install -y --no-install-recommends gnupg ca-certificates apt-transport-https \
+              && update-ca-certificates \              
               && rm -rf /var/lib/apt/lists/* \
               && gpg --batch --yes \
                    --passphrase="$GPG_PASSPHRASE" \
