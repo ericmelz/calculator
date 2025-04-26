@@ -127,7 +127,7 @@ kubectl get ingress
 ### Access the service
 visit http://localhost:8899/calculator/
 
-### Destroy cluster
+### Destroy clusteruv v
 ```bash
 k3d cluster delete calculator
 ```
